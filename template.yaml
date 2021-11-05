@@ -25,6 +25,19 @@ Resources:
           Properties:
             Path: /hello
             Method: get
+  UsersTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: sam-users-table
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+      SSESpecification:
+        SSEEnabled: true
+
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
