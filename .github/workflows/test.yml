@@ -13,7 +13,7 @@ jobs:
   #       gem install rubocop
   #       rubocop --parallel
   rspec:
-    needs: rubocop
+    # needs: rubocop
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
