@@ -123,3 +123,14 @@ aws cloudformation delete-stack --stack-name fulfillments-api
 See the [AWS SAM developer guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html) for an introduction to SAM specification, the SAM CLI, and serverless application concepts.
 
 Next, you can use AWS Serverless Application Repository to deploy ready to use Apps that go beyond hello world samples and learn how authors developed their applications: [AWS Serverless Application Repository main page](https://aws.amazon.com/serverless/serverlessrepo/)
+
+
+## Useful commands
+```
+# List tables locally
+aws dynamodb list-tables --endpoint-url http://localhost:8001
+
+sam local start-api -p 3001 --env-vars test_env.json --docker-network github-actions-with-aws-sam_default
+
+
+```

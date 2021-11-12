@@ -1,9 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: >
-  fulfillments-api
-
-  Sample SAM Template for fulfillments-api
+Description: SAM Template for fulfillments-api
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -11,32 +8,35 @@ Globals:
     Timeout: 3
 
 Resources:
-  HelloWorldFunction:
+  UsersTable:
+    Type: AWS::Serverless::SimpleTable
+  ApiFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: hello_world/
+      CodeUri: fulfillments_api/
       Handler: app.lambda_handler
       Runtime: ruby2.7
       Architectures:
         - x86_64
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UsersTable
+      Environment:
+        Variables:
+          USERS_TABLE_NAME: !Ref UsersTable
       Events:
-        HelloWorld:
+        getUsers:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /hello
+            Path: /users
             Method: get
-  UsersTable:
-    Type: AWS::Serverless::SimpleTable
-    Properties:
-      TableName: sam-users-table
-      PrimaryKey:
-        Name: id
-        Type: String
-      ProvisionedThroughput:
-        ReadCapacityUnits: 1
-        WriteCapacityUnits: 1
-      SSESpecification:
-        SSEEnabled: true
+        createUser:
+          Type: Api
+          Properties:
+            Path: /users
+            Method: post
+
+
 
 
 Outputs:
@@ -44,11 +44,11 @@ Outputs:
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/users/"
+  ApiFunction:
+    Description: "Lambda Function ARN"
+    Value: !GetAtt ApiFunction.Arn
+  ApiFunctionIamRole:
+    Description: "Implicit IAM Role created for lambda function"
+    Value: !GetAtt ApiFunctionRole.Arn
