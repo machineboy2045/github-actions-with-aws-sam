@@ -1,0 +1,28 @@
+name: Test
+
+on: workflow_call
+
+jobs:
+  rubocop:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+    - name: Run Rubocop
+      run: |
+        gem install rubocop
+        rubocop --parallel
+  rspec:
+    needs: rubocop
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+      - uses: rrainn/dynamodb-action@v2.0.0
+        with:
+          port: 8001
+          cors: '*'
+      - name: Run tests
+        run: |
+          bundle install
+          bundle exec rspec
