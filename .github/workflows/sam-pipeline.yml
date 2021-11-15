@@ -3,19 +3,21 @@ on:
     branches:
       - master
 jobs:
-  test:
-    uses: machineboy2045/github-actions-with-aws-sam/.github/workflows/test.yml@master
+  # test:
+  #   uses: machineboy2045/github-actions-with-aws-sam/.github/workflows/test.yml@master
   build-deploy:
-    needs: test
+    # needs: test
     runs-on: ubuntu-latest
+    permissions: # https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#adding-permissions-settings
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
       - uses: aws-actions/setup-sam@v1
       - uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: oidc-github-deploy
           aws-region: us-east-2
       # sam build 
       - run: sam build --use-container
