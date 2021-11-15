@@ -10,16 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     permissions: # https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#adding-permissions-settings
       id-token: write
-      contents: read
+      contents: write
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
-      - uses: aws-actions/setup-sam@v1
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: us-east-2
       # sam build 
+      - uses: aws-actions/setup-sam@v1
       - run: sam build --use-container
 
 # Run Unit tests- Specify unit tests here 
