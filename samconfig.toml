@@ -16,4 +16,3 @@ tags = "project=\"fulfillment-api\" stage=\"production\""
 
 [default.build.parameters]
 use_container = true
-cached = true
