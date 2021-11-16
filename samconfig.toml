@@ -6,12 +6,13 @@ version = 0.1
 stack_name = "fulfillment-api"
  
 [default.deploy.parameters]
+region = "us-west-2"
 s3_bucket = "fulfillment-api-source"
 s3_prefix = "default"
-region = "us-west-2"
+capabilities = "CAPABILITY_IAM"
+use_container = true
 confirm_changeset = false
 fail_on_empty_changeset = false
-capabilities = "CAPABILITY_IAM"
 tags = "project=\"fulfillment-api\" stage=\"production\""
 
 [default.build.parameters]
