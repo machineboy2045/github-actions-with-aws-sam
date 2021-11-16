@@ -17,6 +17,8 @@ Run the `github_oidc_template.yml` Cloudformation template in your AWS account. 
 
 Next, in your Github account settings, create a secret named `AWS_ROLE_TO_ASSUME`, and for the value, paste the ARN of the IAM Role you created.
 
+For more details on how this works see https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
+
 ## Deploying
 
 The application is deployed using Github actions. The actions are defined in `.github/workflows`. Comitting to the `master` branch will trigger a deploy.
