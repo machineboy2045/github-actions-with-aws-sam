@@ -10,10 +10,10 @@ region = "us-west-2"
 s3_bucket = "fulfillment-api-source"
 s3_prefix = "default"
 capabilities = "CAPABILITY_IAM"
-use_container = true
 confirm_changeset = false
 fail_on_empty_changeset = false
 tags = "project=\"fulfillment-api\" stage=\"production\""
 
 [default.build.parameters]
+use_container = true
 cached = true
