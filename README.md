@@ -11,7 +11,11 @@ The application uses several AWS resources, including Lambda functions, an API G
 
 ## Before deploying
 
+Before deploying, you need to grant Github access to your AWS account.
+
 Run the `github_oidc_template.yml` Cloudformation template in your AWS account. It will ask you to enter the name of your Github repo. This template will create an IAM Role that your Github actions can use to deploy your application.
+
+Next, in your Github account settings, create a secret named `AWS_ROLE_TO_ASSUME`, and for the value, paste the ARN of the IAM Role you created.
 
 ## Deploying
 
