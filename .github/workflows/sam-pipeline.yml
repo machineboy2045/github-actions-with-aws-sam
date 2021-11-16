@@ -38,7 +38,7 @@ jobs:
       - uses: aws-actions/configure-aws-credentials@master
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          aws-region: us-east-2
+          aws-region: us-west-2
       - uses: aws-actions/setup-sam@v1
       - run: sam build
       # Run Unit tests- Specify unit tests here
