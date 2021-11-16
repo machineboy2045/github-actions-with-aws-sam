@@ -3,10 +3,31 @@ on:
     branches:
       - master
 jobs:
-  # test:
-  #   uses: machineboy2045/github-actions-with-aws-sam/.github/workflows/test.yml@master
+  # rubocop:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: ruby/setup-ruby@v1
+  #   - name: Run Rubocop
+  #     run: |
+  #       gem install rubocop
+  #       rubocop --parallel
+  rspec:
+    needs: rubocop
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+      - uses: rrainn/dynamodb-action@v2.0.0
+        with:
+          port: 8001
+          cors: '*'
+      - name: Run tests
+        run: |
+          bundle install
+          bundle exec rspec
   build-deploy:
-    # needs: test
+    needs: rspec
     runs-on: ubuntu-latest
     permissions: # https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#adding-permissions-settings
       id-token: write

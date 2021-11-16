@@ -1,22 +1,27 @@
 # frozen_string_literal: true
 
 class Database
-  attr_reader :client
+  attr_reader :client, :stage
 
   def initialize(stage)
     raise 'stage is required' unless stage
 
-    @client = init_client(stage)
+    @stage = stage
+    @client = init_client
     configure_tables
   end
 
   def clear
+    raise 'Only use this in test stage!' unless stage == ENVS[:test]
+
     Aws::Record::TableMigration.new(User, client: client).delete!
   rescue Aws::Record::Errors::TableDoesNotExist
     false
   end
 
   def migrate
+    raise 'Only use this in test stage!' unless stage == ENVS[:test]
+
     migration = Aws::Record::TableMigration.new(User, client: client)
     migration.create!(
       provisioned_throughput: {
@@ -29,7 +34,7 @@ class Database
 
   private
 
-  def init_client(stage)
+  def init_client
     if stage == ENVS[:test]
       puts 'Using test DB'
       Aws::DynamoDB::Client.new(

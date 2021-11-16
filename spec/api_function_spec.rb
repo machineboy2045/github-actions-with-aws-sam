@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require './fulfillments_api/app'
+require './api_function/app'
 
 RSpec.describe 'app' do
   let(:stage) { ENVS[:test] }
