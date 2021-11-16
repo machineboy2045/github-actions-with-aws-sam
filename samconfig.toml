@@ -7,7 +7,7 @@ stack_name = "fulfillment-api"
  
 [default.deploy.parameters]
 region = "us-west-2"
-s3_bucket = "fulfillment-api-source"
+resolve_s3 = true
 s3_prefix = "default"
 capabilities = "CAPABILITY_IAM"
 confirm_changeset = false
